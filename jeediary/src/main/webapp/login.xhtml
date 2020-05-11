@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Login</title>
+        <style type="text/css">
+            .form-signin {
+                margin: 0 auto;
+                max-width: 420px;
+                padding: 16px;
+            }
+        </style>
+    </h:head>
+ 
+    <h:body>
+        <b:jumbotron>
+
+            <b:container style="text-align:center">
+            
+            
+                <h1>JEEdiary</h1>
+                <p>Welcome. Please Login.</p>
+                
+            </b:container>
+        </b:jumbotron>
+        <b:container>
+            <h:form styleClass="form-signin" prependId="false">
+                <h1>Login</h1>
+                <b:inputText id="email" placeholder="email@example.com" label="Email" value="#{loginCtrl.email}" />
+                <b:inputText id="password" placeholder="Your password" type="password" label="Password" value="#{loginCtrl.password}" />
+                <b:commandButton look="primary btn-block btn-raised" value="Log In" action="#{loginCtrl.submit()}" />
+                <b:messages />
+            </h:form>
+        </b:container>
+    </h:body>
+</html>

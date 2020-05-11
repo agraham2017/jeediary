@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Edit #{editTeamMemberCtrl.name}</title>
+    </h:head>
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{editTeamMemberCtrl.queryId}"  />
+        <f:viewAction action="#{editTeamMemberCtrl.onLoad(userSessionCtrl.id, userSessionCtrl.isAdmin)}" />
+    </f:metadata>
+
+    <h:body style="padding-top: 52px">
+                <h:form>
+
+            <b:navBar brand="JEEdiary" brandHref="#" fixed="top" inverse="true">
+                <b:navbarLinks>
+                    <b:navLink value="Team" href="team.xhtml"></b:navLink>
+                    <b:navLink value="Diary" href="diary.xhtml"></b:navLink>
+                </b:navbarLinks>
+
+                <b:navbarLinks pull="right">
+                    <b:dropMenu value="#{userSessionCtrl.name}">
+                        <b:navCommandLink value="Your Details" action="#{userSessionCtrl.viewDetails()}"/>
+                        <b:navCommandLink value="Change Password" action="#{userSessionCtrl.changePassword()}"/>
+                        <b:navCommandLink value="Log Out" action="#{userSessionCtrl.logOut()}"/> 
+                    </b:dropMenu>
+                </b:navbarLinks>
+            </b:navBar>
+        </h:form>
+        <h:form>
+            <b:jumbotron>
+                <b:container>
+                    <h1>#{editTeamMemberCtrl.header}</h1>
+                    <p>#{editTeamMemberCtrl.subHeader}</p>
+                </b:container>
+            </b:jumbotron>
+
+            <b:container rendered="#{editTeamMemberCtrl.formVisible}">
+
+
+                <b:breadcrumbs>
+                    <f:facet name="root">
+                        <b:iconAwesome value="fa-calendar" />
+                        JEEdiary
+                    </f:facet> 
+                    <b:navLink value="Team" href="team.xhtml"/>
+                    <b:navLink rendered="#{editTeamMemberCtrl.userFound}" value="#{editTeamMemberCtrl.name}" href="/view-team-member.xhtml?id=#{editTeamMemberCtrl.queryId}"/>
+                    <f:facet name="end">
+                        Edit Team Member
+                    </f:facet> 
+                </b:breadcrumbs>
+
+
+
+                <h2>Details</h2>
+                <p>Note: fields denoted with * are required</p>
+                <b:row>
+                    <b:column col-md="6">
+                        <b:inputText id="firstName" placeholder="Joe" label="First Name" requiredMessage="Please enter a first name" required="true" value="#{editTeamMemberCtrl.firstName}"/>
+                    </b:column>
+                    <b:column col-md="6">
+                        <b:inputText id="lastName" placeholder="Bloggs" label="Last Name" requiredMessage="Please enter a last name" required="true" value="#{editTeamMemberCtrl.lastName}"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column col-md="6">
+                        <b:inputText id="email" placeholder="email@example.com" label="Email Address" validatorMessage="Please enter a valid email address" requiredMessage="Please enter an email address" required="true" value="#{editTeamMemberCtrl.email}">
+                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" for="email"/>
+                        </b:inputText>
+                    </b:column>
+                    <b:column col-md="6">
+                        <b:inputText id="phone" placeholder="+44 0123456789" label="Phone Number" value="#{editTeamMemberCtrl.phone}" />
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column col-md="6">
+                        <b:inputText id="addressLn1" label="Address Ln 1" value="#{editTeamMemberCtrl.addressLn1}" />
+                    </b:column>
+                    <b:column col-md="6">
+                        <b:inputText id="addressLn2" label="Address Ln 2" value="#{editTeamMemberCtrl.addressLn2}" />
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column col-md="4">
+                        <b:inputText id="city" label="City" value="#{editTeamMemberCtrl.city}" />
+                    </b:column>
+                    <b:column col-md="4">
+                        <b:inputText id="region" label="Region" value="#{editTeamMemberCtrl.region}" />
+                    </b:column>
+                    <b:column col-md="4">
+                        <b:inputText id="zip" label="Post Code / Zip Code" value="#{editTeamMemberCtrl.zip}" />
+                    </b:column>
+                </b:row>
+                <b:row rendered="#{userSessionCtrl.isAdmin}">
+                    <b:column col-md="12">
+                        <b:switch id="isAdmin" label="Administrator" value="#{editTeamMemberCtrl.isAdmin}" disabled="#{!editTeamMemberCtrl.canSetIsAdmin(userSessionCtrl.id)}" />
+                    </b:column>
+                </b:row>
+                <b:messages />
+                <b:commandButton style="margin-bottom: 16pt" update="@form" look="primary btn-block btn-raised" value="Update" action="#{editTeamMemberCtrl.submitForm()}"/>
+            </b:container>
+        </h:form>
+
+    </h:body>
+</html>

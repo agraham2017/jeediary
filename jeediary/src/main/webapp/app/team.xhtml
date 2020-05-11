@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Team</title>
+    </h:head>
+    <h:body style="padding-top: 52px">
+        <h:form>
+        <b:navBar brand="JEEdiary" brandHref="#" fixed="top" inverse="true">
+            <b:navbarLinks>
+                <b:navLink value="Team" href="team.xhtml"></b:navLink>
+                <b:navLink value="Diary" href="diary.xhtml"></b:navLink>
+            </b:navbarLinks>
+            <b:navbarLinks pull="right">
+                <b:dropMenu value="#{userSessionCtrl.name}">
+                    <b:navCommandLink value="Your Details" action="#{userSessionCtrl.viewDetails()}"/>
+                    <b:navCommandLink value="Change Password" action="#{userSessionCtrl.changePassword()}"/>
+                    <b:navCommandLink value="Log Out" action="#{userSessionCtrl.logOut()}"/>
+                </b:dropMenu>
+            </b:navbarLinks>
+        </b:navBar>
+            <b:container>
+                <b:breadcrumbs>
+                    <f:facet name="root">
+                        <b:iconAwesome value="fa-calendar" />
+                        JEEdiary
+                    </f:facet> 
+                    <f:facet name="end">
+                        Team
+                    </f:facet> 
+                </b:breadcrumbs>
+                <b:row class="align-items-bottom">
+                    <b:column col-lg="8">
+                        <h1>The Team</h1>
+                    </b:column>
+                    <b:column col-lg="4" class="text-right" >
+                        <b:button value="Add New" look="primary" href="create-team-member.xhtml" rendered="#{userSessionCtrl.isAdmin}" />
+                    </b:column>
+                </b:row>        
+                <hr/>
+                <b:messages/>
+                <b:dataTable value="#{teamCtrl.teamMembers}"
+                             var="tm"
+                             columnVisibility="true"
+                             print="true"
+                             style="width:100%"
+                             select="true">
+                    <b:dataTableColumn value="#{tm.firstName}" order="asc" label="First Name"/>
+                    <b:dataTableColumn value="#{tm.lastName}" label="Last Name" />
+                    <b:dataTableColumn value="#{tm.email}" />
+                    <b:dataTableColumn value="#{tm.phone}" />
+                    <b:dataTableColumn label="Options">
+                        <b:commandButton value="View" look="link" iconAwesome="eye" size="sm" action="#{teamCtrl.viewTeamMember(tm.id)}"/>
+                    </b:dataTableColumn>
+                </b:dataTable>
+            </b:container>
+        </h:form>
+    </h:body>
+</html>
+

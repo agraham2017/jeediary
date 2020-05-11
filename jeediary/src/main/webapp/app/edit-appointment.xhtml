@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>#{editEventCtrl.title}</title>
+    </h:head>
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{editEventCtrl.queryId}"  />
+        <f:viewAction action="#{editEventCtrl.onLoad(userSessionCtrl.id, userSessionCtrl.isAdmin)}" />
+    </f:metadata>
+
+    <h:body style="padding-top: 52px">
+        <h:form>
+
+            <b:navBar brand="JEEdiary" brandHref="#" fixed="top" inverse="true">
+                <b:navbarLinks>
+                    <b:navLink value="Team" href="team.xhtml"></b:navLink>
+                    <b:navLink value="Diary" href="diary.xhtml"></b:navLink>
+                </b:navbarLinks>
+
+                <b:navbarLinks pull="right">
+                    <b:dropMenu value="#{userSessionCtrl.name}">
+                        <b:navCommandLink value="Your Details" action="#{userSessionCtrl.viewDetails()}"/>
+                        <b:navCommandLink value="Change Password" action="#{userSessionCtrl.changePassword()}"/>
+                        <b:navCommandLink value="Log Out" action="#{userSessionCtrl.logOut()}"/> 
+                    </b:dropMenu>
+                </b:navbarLinks>
+            </b:navBar>
+        </h:form>
+        <h:form>
+            <b:jumbotron>
+                <b:container>
+                    <h1>#{editEventCtrl.header}</h1>
+                    <p>#{editEventCtrl.subHeader}</p>
+                </b:container>
+            </b:jumbotron>
+
+            <b:container rendered="#{editEventCtrl.formVisible}">
+
+                <b:breadcrumbs>
+                    <f:facet name="root">
+                        <b:iconAwesome value="fa-calendar" />
+                        JEEdiary
+                    </f:facet> 
+                    <b:navLink value="Diary" href="diary.xhtml"/>
+                    <b:navLink rendered="#{editEventCtrl.eventFound}" value="#{editEventCtrl.title}" href="/view-appointment.xhtml?id=#{editEventCtrl.queryId}"/>
+                    <f:facet name="end">
+                        Edit #{editEventCtrl.title}
+                    </f:facet> 
+                </b:breadcrumbs>
+
+                <h2>Details</h2>
+                <p>Note: fields denoted with * are required</p>
+                <b:inputText id="title" placeholder="e.g. Finance Review Meeting" label="Appointment Title" requiredMessage="Please enter a title" required="true" value="#{editEventCtrl.title}"/>
+                <b:row>
+                    <b:column col-md="6">
+                        <b:dateTimePicker id="startTime" placeholder="yyyy-mm-dd hh:mm" label="Start Time" requiredMessage="Please enter a start time" required="true" value="#{editEventCtrl.startDate}" format="YYYY-MM-DD HH:mm"/>
+                    </b:column>
+                    <b:column col-md="6">
+                        <b:dateTimePicker min-date="#{editEventCtrl.startDate}" id="endTime" placeholder="yyyy-mm-dd hh:mm" label="End Time" requiredMessage="Please enter an end time" required="true" value="#{editEventCtrl.endDate}" format="YYYY-MM-DD HH:mm"/>
+                    </b:column>
+                </b:row>
+                <b:inputTextarea id="details" placeholder="e.g. Don't forget to bring laptops to this appointment..." label="Details" rows="5" value="#{editEventCtrl.description}" />
+
+                <h2>Attendees</h2>
+                <p>Enter the email address of team member's you wish to attend then click the add button.</p>
+                <ui:repeat value="#{editEventCtrl.teamMembers}" var="tm">
+                    <b:commandButton size="sm" icon="trash" look="link" value="#{tm.name}" action="#{editEventCtrl.removeTeamMember(tm)}"/>
+                </ui:repeat>
+                <b:inputText id="email" placeholder="email@example.com" mask="email" label="Email Address" value="#{editEventCtrl.email}">
+                    <f:facet name="append">
+                        <b:commandButton value="Add"  iconAwesome="plus" icon-align="right" action="#{editEventCtrl.addTeamMember()}"/>
+                    </f:facet>
+                </b:inputText>
+                <b:messages/>
+                <b:commandButton style="margin-bottom: 16pt" update="@form" look="primary btn-block btn-raised" value="Update" action="#{editEventCtrl.submitForm()}"/>
+            </b:container>
+        </h:form>
+    </h:body>
+</html>
